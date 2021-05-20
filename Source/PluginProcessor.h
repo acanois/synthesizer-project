@@ -57,16 +57,6 @@ public:
 
 private:
     //==============================================================================
-    juce::dsp::Oscillator<float> oscil { [](float x) { return std::sin(x); } };
-//    juce::dsp::Oscillator<float> oscil { [](float x) {
-//        return x / juce::MathConstants<float>::pi;
-//    } };
-//    juce::dsp::Oscillator<float> oscil { [](float x) {
-//        return x < 0.0f ? -1.0f : 1.0f;
-//    } };
-    
-    juce::dsp::Gain<float> gain;
-    
     juce::Synthesiser synth;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SynthotronAudioProcessor)

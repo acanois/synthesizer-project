@@ -98,16 +98,13 @@ void SynthotronAudioProcessor::prepareToPlay (double sampleRate, int samplesPerB
 {
     synth.setCurrentPlaybackSampleRate(sampleRate);
     
-    juce::dsp::ProcessSpec spec;
-    spec.maximumBlockSize = samplesPerBlock;
-    spec.sampleRate = sampleRate;
-    spec.numChannels = getTotalNumOutputChannels();
-    
-    oscil.prepare(spec);
-    gain.prepare(spec);
-    
-    oscil.setFrequency(110.0f);
-    gain.setGainLinear(0.1f);
+    for (int i = 0; i < synth.getNumVoices(); ++i)
+    {
+        if (auto voice = dynamic_cast<SynthVoice*>(synth.getVoice(i)))
+        {
+            voice->prepareVoice(samplesPerBlock, sampleRate, getTotalNumOutputChannels());
+        }
+    }
 }
 
 void SynthotronAudioProcessor::releaseResources()
@@ -151,9 +148,7 @@ void SynthotronAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
     
-    juce::dsp::AudioBlock<float> audioBlock { buffer };
-    oscil.process(juce::dsp::ProcessContextReplacing<float> (audioBlock));
-    gain.process(juce::dsp::ProcessContextReplacing<float> (audioBlock));
+
     
     for (int i = 0; i < synth.getNumVoices(); ++i)
     {
