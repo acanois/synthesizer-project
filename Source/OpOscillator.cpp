@@ -10,10 +10,20 @@
 
 #include "OpOscillator.h"
 
+OpOscillator::OpOscillator()
+{
+    
+}
+
 void OpOscillator::prepareOscillator (juce::dsp::ProcessSpec& spec)
 {
     initAdsr (spec.sampleRate);
     mOscillator.prepare(spec);
+}
+
+void OpOscillator::setOpFrequency (int midiNoteNumber)
+{
+    mOscillator.setFrequency (midiNoteNumber);
 }
 
 void OpOscillator::initAdsr (double sampleRate)
@@ -47,12 +57,10 @@ void OpOscillator::stopNote()
     mAdsr.noteOff();
 }
 
-void OpOscillator::processOpOscillator (
-                          juce::dsp::AudioBlock<float>& audioBlock,
-                          juce::AudioBuffer<float>& outputBuffer,
-                          int startSample,
-                          int blockSize
-                          )
+void OpOscillator::processOpOscillator (juce::dsp::AudioBlock<float>& audioBlock,
+                                        juce::AudioBuffer<float>& outputBuffer,
+                                        int startSample,
+                                        int blockSize)
 {
     mOscillator.process(juce::dsp::ProcessContextReplacing<float> (audioBlock));
     mAdsr.applyEnvelopeToBuffer(outputBuffer, startSample, blockSize);

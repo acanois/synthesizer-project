@@ -15,8 +15,10 @@
 class OpOscillator
 {
 public:
+    OpOscillator();
+    
     void prepareOscillator (juce::dsp::ProcessSpec& spec);
-    void initAdsr (double sampleRate);
+    void setOpFrequency (int midiNoteNumber);
     void setAdsr (float attack, float decay, float sustain, float release);
     void startNote();
     void stopNote();
@@ -28,6 +30,8 @@ public:
                               );
     
 private:
+    void initAdsr (double sampleRate);
+    
     juce::dsp::Oscillator<float> mOscillator { [](float x) { return std::sin(x); } };
     juce::ADSR mAdsr;
     juce::ADSR::Parameters mAdsrParameters;

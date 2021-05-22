@@ -35,7 +35,9 @@ public:
     void controllerMoved (int controllerNumber, int newControllerValue) override;
     
 private:
-    juce::dsp::ProcessSpec prepareSpec (double sampleRate, int samplesPerBlock, int numOutputChannels);
+    juce::dsp::ProcessSpec prepareSpec (double sampleRate,
+                                        int samplesPerBlock,
+                                        int numOutputChannels);
     void prepareAdsr (double sampleRate);
     
     juce::dsp::Oscillator<float> mOscillator { [](float x) { return std::sin(x); } };
@@ -45,4 +47,6 @@ private:
     bool mIsPrepared { false };
     bool mSpecPrepared { false };
     bool mAdsrPrepared { false };
+    
+    std::unique_ptr<OpOscillator> mOpOscillator = std::make_unique<OpOscillator>();
 };
