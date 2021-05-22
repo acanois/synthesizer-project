@@ -45,6 +45,5 @@ private:
     bool mSpecPrepared { false };
     bool mAdsrPrepared { false };
     
-    /// std::unique_ptr<OpOscillator> mOpOscillator = std::make_unique<OpOscillator>();
     std::unique_ptr<OperatorManager> mOpManager = std::make_unique<OperatorManager>();
 };

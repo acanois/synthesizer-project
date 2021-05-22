@@ -27,15 +27,12 @@ void SynthVoice::startNote (int midiNoteNumber,
 {
     DBG (juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber));
     
-    /// mOpOscillator->setOpFrequency (midiNoteNumber);
     mOpManager->setFreqs(midiNoteNumber);
-    /// mOpOscillator->startNote();
     mOpManager->startOpNotes();
 }
 
 void SynthVoice::stopNote (float velocity, bool allowTailOff)
 {
-    /// mOpOscillator->stopNote();
     mOpManager->stopOpNotes();
 }
 
@@ -43,7 +40,6 @@ void SynthVoice::prepareVoice (double sampleRate, int samplesPerBlock, int numOu
 {
     juce::dsp::ProcessSpec spec = prepareSpec (sampleRate, samplesPerBlock, numOutputChannels);
 
-    /// mOpOscillator->prepareOscillator (spec);
     mOpManager->prepareOperators(spec);
     
     // jassert only functions when building in debug
@@ -70,7 +66,6 @@ void SynthVoice::renderNextBlock (juce::AudioBuffer<float> &outputBuffer,
     jassert (mIsPrepared);
     
     juce::dsp::AudioBlock<float> audioBlock { outputBuffer };
-    /// mOpOscillator->processOpOscillator (audioBlock, outputBuffer, 0, numSamples);
     mOpManager->processOperators(audioBlock, outputBuffer, 0, numSamples);
 }
 
