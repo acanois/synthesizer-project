@@ -25,7 +25,10 @@ public:
                           juce::AudioBuffer<float>& outputBuffer,
                           int startSample,
                           int blockSize);
-    void prepareOperator(juce::dsp::ProcessSpec& spec);
+    void prepareOperators(juce::dsp::ProcessSpec& spec);
+    void startOpNotes();
+    void stopOpNotes();
+    void setFreqs (int midiNoteNumber);
     
 private:
     const int NUM_OPERATORS { 4 };

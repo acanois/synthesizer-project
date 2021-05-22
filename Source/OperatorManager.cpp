@@ -36,8 +36,26 @@ void OperatorManager::processOperators (juce::dsp::AudioBlock<float>& audioBlock
         op->processOpOscillator (audioBlock, outputBuffer, 0, blockSize);
 }
 
-void OperatorManager::prepareOperator (juce::dsp::ProcessSpec& spec)
+void OperatorManager::prepareOperators (juce::dsp::ProcessSpec& spec)
 {
     for (auto op : mOperators)
         op->prepareOscillator (spec);
+}
+
+void OperatorManager::startOpNotes()
+{
+    for (auto op : mOperators)
+        op->startNote();
+}
+
+void OperatorManager::stopOpNotes()
+{
+    for (auto op : mOperators)
+        op->stopNote();
+}
+
+void OperatorManager::setFreqs (int midiNoteNumber)
+{
+    for (auto op : mOperators)
+        op->setOpFrequency (midiNoteNumber);
 }

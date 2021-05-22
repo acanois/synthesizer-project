@@ -12,7 +12,7 @@
 
 SynthVoice::SynthVoice()
 {
-    
+    mOpManager->initOperators();
 }
 
 bool SynthVoice::canPlaySound (juce::SynthesiserSound* synthSound)
@@ -27,20 +27,24 @@ void SynthVoice::startNote (int midiNoteNumber,
 {
     DBG (juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber));
     
-    mOpOscillator->setOpFrequency (midiNoteNumber);
-    mOpOscillator->startNote();
+    /// mOpOscillator->setOpFrequency (midiNoteNumber);
+    mOpManager->setFreqs(midiNoteNumber);
+    /// mOpOscillator->startNote();
+    mOpManager->startOpNotes();
 }
 
 void SynthVoice::stopNote (float velocity, bool allowTailOff)
 {
-    mOpOscillator->stopNote();
+    /// mOpOscillator->stopNote();
+    mOpManager->stopOpNotes();
 }
 
 void SynthVoice::prepareVoice (double sampleRate, int samplesPerBlock, int numOutputChannels)
 {
     juce::dsp::ProcessSpec spec = prepareSpec (sampleRate, samplesPerBlock, numOutputChannels);
 
-    mOpOscillator->prepareOscillator (spec);
+    /// mOpOscillator->prepareOscillator (spec);
+    mOpManager->prepareOperators(spec);
     
     // jassert only functions when building in debug
     jassert (mSpecPrepared);
@@ -66,7 +70,8 @@ void SynthVoice::renderNextBlock (juce::AudioBuffer<float> &outputBuffer,
     jassert (mIsPrepared);
     
     juce::dsp::AudioBlock<float> audioBlock { outputBuffer };
-    mOpOscillator->processOpOscillator (audioBlock, outputBuffer, 0, numSamples);
+    /// mOpOscillator->processOpOscillator (audioBlock, outputBuffer, 0, numSamples);
+    mOpManager->processOperators(audioBlock, outputBuffer, 0, numSamples);
 }
 
 void SynthVoice::pitchWheelMoved (int newPitchWheelValue)
