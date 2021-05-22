@@ -13,6 +13,7 @@
 #include <JuceHeader.h>
 
 #include "SynthSound.h"
+#include "OperatorManager.h"
 #include "OpOscillator.h"
 
 class SynthVoice : public juce::SynthesiserVoice

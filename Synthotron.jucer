@@ -6,6 +6,10 @@
   <MAINGROUP id="HdX549" name="Synthotron">
     <GROUP id="{475E7E6C-7CB6-A3F7-A48E-C1BC7148ED46}" name="Source">
       <GROUP id="{99944DC6-DA03-122C-89B1-E71C5766917C}" name="SynthEngine">
+        <FILE id="BIIV6C" name="OperatorManager.cpp" compile="1" resource="0"
+              file="Source/OperatorManager.cpp"/>
+        <FILE id="kioFU6" name="OperatorManager.h" compile="0" resource="0"
+              file="Source/OperatorManager.h"/>
         <FILE id="BB8HS2" name="SynthSound.h" compile="0" resource="0" file="Source/SynthSound.h"/>
         <FILE id="vEBFhB" name="SynthVoice.h" compile="0" resource="0" file="Source/SynthVoice.h"/>
         <FILE id="sovQIT" name="SynthVoice.cpp" compile="1" resource="0" file="Source/SynthVoice.cpp"/>
