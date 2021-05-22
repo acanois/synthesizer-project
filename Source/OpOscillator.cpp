@@ -10,27 +10,39 @@
 
 #include "OpOscillator.h"
 
-void OpOscillator::prepareVoice (double sampleRate, int samplesPerBlock, int numOutputChannels)
+void OpOscillator::prepareOscillator (juce::dsp::ProcessSpec& spec)
 {
-    
+    initAdsr (spec.sampleRate);
+    mOscillator.prepare(spec);
 }
 
-void OpOscillator::initAdsr()
+void OpOscillator::initAdsr (double sampleRate)
 {
+    mAdsr.setSampleRate(sampleRate);
+    mAdsrParameters.attack = 0.1f;
+    mAdsrParameters.decay = 0.1f;
+    mAdsrParameters.sustain = 0.5f;
+    mAdsrParameters.release = 0.1f;
     
+    mAdsrPrepared = true;
 }
 
 void OpOscillator::setAdsr (float attack, float decay, float sustain, float release)
 {
+    // Currently unimplemented
     
+    mAdsrParameters.attack = attack;
+    mAdsrParameters.decay = decay;
+    mAdsrParameters.sustain = sustain;
+    mAdsrParameters.release = release;
 }
 
 void OpOscillator::startNote()
 {
-    
+    mAdsr.noteOn();
 }
 
 void OpOscillator::stopNote()
 {
-    
+    mAdsr.noteOff();
 }

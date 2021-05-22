@@ -15,8 +15,8 @@
 class OpOscillator
 {
 public:
-    void prepareVoice (double sampleRate, int samplesPerBlock, int numOutputChannels);
-    void initAdsr();
+    void prepareOscillator (juce::dsp::ProcessSpec& spec);
+    void initAdsr (double sampleRate);
     void setAdsr (float attack, float decay, float sustain, float release);
     void startNote();
     void stopNote();
