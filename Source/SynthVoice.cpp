@@ -37,15 +37,12 @@ void SynthVoice::stopNote (float velocity, bool allowTailOff)
 
 void SynthVoice::prepareVoice (double sampleRate, int samplesPerBlock, int numOutputChannels)
 {
-
     juce::dsp::ProcessSpec spec = prepareSpec(sampleRate, samplesPerBlock, numOutputChannels);
     prepareAdsr (sampleRate);
     
     mOscillator.prepare(spec);
-//    mGain.prepare(spec);
-//
-//    mGain.setGainLinear(0.1f);
     
+    // jassert only functions when building in debug
     jassert (mSpecPrepared);
     jassert (mAdsrPrepared);
     mIsPrepared = true;
@@ -82,7 +79,6 @@ void SynthVoice::renderNextBlock (juce::AudioBuffer<float> &outputBuffer,
     
     juce::dsp::AudioBlock<float> audioBlock { outputBuffer };
     mOscillator.process(juce::dsp::ProcessContextReplacing<float> (audioBlock));
-//    mGain.process(juce::dsp::ProcessContextReplacing<float> (audioBlock));
     mAdsr.applyEnvelopeToBuffer(outputBuffer, startSample, numSamples);
 }
 

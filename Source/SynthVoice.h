@@ -11,7 +11,9 @@
 #pragma once
 
 #include <JuceHeader.h>
+
 #include "SynthSound.h"
+#include "OpOscillator.h"
 
 class SynthVoice : public juce::SynthesiserVoice
 {
@@ -37,13 +39,6 @@ private:
     void prepareAdsr (double sampleRate);
     
     juce::dsp::Oscillator<float> mOscillator { [](float x) { return std::sin(x); } };
-//    juce::dsp::Oscillator<float> oscil { [](float x) {
-//        return x / juce::MathConstants<float>::pi;
-//    } };
-//    juce::dsp::Oscillator<float> oscil { [](float x) {
-//        return x < 0.0f ? -1.0f : 1.0f;
-//    } };
-    juce::dsp::Gain<float> mGain;
     juce::ADSR mAdsr;
     juce::ADSR::Parameters mAdsrParameters;
     
