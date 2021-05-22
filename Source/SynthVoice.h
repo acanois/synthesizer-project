@@ -40,10 +40,6 @@ private:
                                         int numOutputChannels);
     void prepareAdsr (double sampleRate);
     
-    juce::dsp::Oscillator<float> mOscillator { [](float x) { return std::sin(x); } };
-    juce::ADSR mAdsr;
-    juce::ADSR::Parameters mAdsrParameters;
-    
     bool mIsPrepared { false };
     bool mSpecPrepared { false };
     bool mAdsrPrepared { false };

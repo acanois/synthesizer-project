@@ -26,28 +26,24 @@ void SynthVoice::startNote (int midiNoteNumber,
                 int currentPitchWheelPosition)
 {
     DBG (juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber));
-    /// mOscillator.setFrequency(juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber));
+    
     mOpOscillator->setOpFrequency (midiNoteNumber);
-    /// mAdsr.noteOn();
     mOpOscillator->startNote();
 }
 
 void SynthVoice::stopNote (float velocity, bool allowTailOff)
 {
-    // mAdsr.noteOff();
     mOpOscillator->stopNote();
 }
 
 void SynthVoice::prepareVoice (double sampleRate, int samplesPerBlock, int numOutputChannels)
 {
-    juce::dsp::ProcessSpec spec = prepareSpec(sampleRate, samplesPerBlock, numOutputChannels);
-    /// prepareAdsr (sampleRate);
-    /// mOscillator.prepare(spec);
+    juce::dsp::ProcessSpec spec = prepareSpec (sampleRate, samplesPerBlock, numOutputChannels);
+
     mOpOscillator->prepareOscillator (spec);
     
     // jassert only functions when building in debug
     jassert (mSpecPrepared);
-    /// jassert (mAdsrPrepared);
     mIsPrepared = true;
 }
 
@@ -63,17 +59,6 @@ juce::dsp::ProcessSpec SynthVoice::prepareSpec(double sampleRate, int samplesPer
     return spec;
 }
 
-void SynthVoice::prepareAdsr (double sampleRate)
-{
-    mAdsr.setSampleRate(sampleRate);
-    mAdsrParameters.attack = 0.1f;
-    mAdsrParameters.decay = 0.1f;
-    mAdsrParameters.sustain = 0.5f;
-    mAdsrParameters.release = 0.1f;
-    
-    mAdsrPrepared = true;
-}
-
 void SynthVoice::renderNextBlock (juce::AudioBuffer<float> &outputBuffer,
                       int startSample,
                       int numSamples)
@@ -81,9 +66,7 @@ void SynthVoice::renderNextBlock (juce::AudioBuffer<float> &outputBuffer,
     jassert (mIsPrepared);
     
     juce::dsp::AudioBlock<float> audioBlock { outputBuffer };
-    /// mOscillator.process(juce::dsp::ProcessContextReplacing<float> (audioBlock));
     mOpOscillator->processOpOscillator (audioBlock, outputBuffer, 0, numSamples);
-    /// mAdsr.applyEnvelopeToBuffer(outputBuffer, startSample, numSamples);
 }
 
 void SynthVoice::pitchWheelMoved (int newPitchWheelValue)
