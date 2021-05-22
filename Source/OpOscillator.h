@@ -20,6 +20,12 @@ public:
     void setAdsr (float attack, float decay, float sustain, float release);
     void startNote();
     void stopNote();
+    void processOpOscillator (
+                              juce::dsp::AudioBlock<float>& audioBlock,
+                              juce::AudioBuffer<float>& outputBuffer,
+                              int startSample,
+                              int blockSize
+                              );
     
 private:
     juce::dsp::Oscillator<float> mOscillator { [](float x) { return std::sin(x); } };

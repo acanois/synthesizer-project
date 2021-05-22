@@ -46,3 +46,14 @@ void OpOscillator::stopNote()
 {
     mAdsr.noteOff();
 }
+
+void OpOscillator::processOpOscillator (
+                          juce::dsp::AudioBlock<float>& audioBlock,
+                          juce::AudioBuffer<float>& outputBuffer,
+                          int startSample,
+                          int blockSize
+                          )
+{
+    mOscillator.process(juce::dsp::ProcessContextReplacing<float> (audioBlock));
+    mAdsr.applyEnvelopeToBuffer(outputBuffer, startSample, blockSize);
+}
